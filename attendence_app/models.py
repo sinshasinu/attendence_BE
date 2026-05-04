@@ -18,10 +18,12 @@ class Attendance(models.Model):
             if break_obj.start_time and break_obj.end_time:
                 total_duration += (break_obj.end_time - break_obj.start_time)
 
-        # Convert to HH:MM format
-        total_seconds = int(total_duration.total_seconds())
-        hours = total_seconds // 3600
-        minutes = (total_seconds % 3600) // 60
+        # Convert to HH:MM format with rounding
+        total_seconds = total_duration.total_seconds()
+        # Round to nearest minute (before converting to int)
+        total_minutes = round(total_seconds / 60)
+        hours = total_minutes // 60
+        minutes = total_minutes % 60
         return f"{hours}:{minutes:02d}"
 
     def calculate_total_work_hours(self):
@@ -37,10 +39,12 @@ class Attendance(models.Model):
 
             work_duration = total_duration - break_duration
 
-            # Convert to HH:MM format
-            total_seconds = int(work_duration.total_seconds())
-            hours = total_seconds // 3600
-            minutes = (total_seconds % 3600) // 60
+            # Convert to HH:MM format with rounding
+            total_seconds = work_duration.total_seconds()
+            # Round to nearest minute (before converting to int)
+            total_minutes = round(total_seconds / 60)
+            hours = total_minutes // 60
+            minutes = total_minutes % 60
             return f"{hours}:{minutes:02d}"
 
         return "0:00"

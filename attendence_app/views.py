@@ -50,8 +50,8 @@ class CheckInAPIView(APIView):
             user=user,
             date=today,
             check_in_time=timezone.now(),
-            total_work_hours=0,
-            total_break_hours=0
+            total_work_hours="0:00",
+            total_break_hours="0:00"
         )
 
         return Response({
